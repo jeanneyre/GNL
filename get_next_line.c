@@ -6,7 +6,7 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/24 15:55:11 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/06/25 10:21:22 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,14 @@ char	*record_line(char *rec_str) // j'enregistre la ligne suivante
 	return (char_return);
 }
 
-int	get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line) 
+ // **line > pointeur sur la string qui doit contenir la ligne
+ // gnl renvoit un int et non la str, elle doit prendre un pointeur sur la str pour bien modifier la str et non une copie de celle-ci, comme un pointeur sur int en parametre pour modifier cet int en dehors de la fonction line doit contenir la ligne suivante a chaque appel, jusqu'a la fin du fichier
 {
-	static char	*str; // variable static qui se souvient de ce qu'il reste du dernier appel de read (pointeur vers un pointeur)
+	static char	*str; 
+// variable static qui se souvient de ce qu'il reste du dernier appel de read (pointeur vers un pointeur)
+// servira a garder si besoin ce qu'il y a apres le premier \n de buffer qui a read de BUFFER_SIZE
+
 	char		buffer[BUFFER_SIZE + 1]; // buffer de destination
 	int			temp; // tampon a ajouter a la ligne de resultat
 
