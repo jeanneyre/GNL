@@ -4,7 +4,7 @@ CFLAGS		=	-Wall -Wextra -Werror -c
 
 CC			=	gcc
 
-SRCS        =    ft_get_next_line.c
+SRCS        =    get_next_line.c get_next_line_utils.c \
 
 SRCS_BONUS	=		
 
