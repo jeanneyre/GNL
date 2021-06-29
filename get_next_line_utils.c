@@ -6,11 +6,28 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 08:32:26 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/24 14:52:17 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/06/29 10:21:40 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "get_next_line.h"
+
+int	return_n(char *str) // retourne le caractere de la chaine en parametre
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_strlen(const char *str)
 {
@@ -20,8 +37,8 @@ int	ft_strlen(const char *str)
 		return (0);
 	i = 0;
 	while (str[i] != '\0')
-			i++;
-		return (i);
+		i++;
+	return (i);
 }
 
 char	*ft_strjoin(char *s1, char const *s2)
@@ -32,8 +49,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 
 	if (!s2)
 		return (NULL);
-	i = 0;
-	j = 0;
+	init(&i, &j);
 	dest = (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2) + 1)));
 	if (!dest)
 		return (NULL);
@@ -47,9 +63,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	}
 	while (s2[j])
 	{
-		dest[i] = s2[j];
-		i++;
-		j++;
+		dest[i++] = s2[j++];
 	}
 	dest[i] = '\0';
 	free(s1);
