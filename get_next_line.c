@@ -6,7 +6,7 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/29 10:21:03 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/06/29 15:17:29 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*record_line(char *rec_str) // j'enregistre la ligne suivante
 		return (0);
 	while (rec_str[i] && rec_str[i] != '\n')
 		i++;
-	char_return = malloc(sizeof(char) * (ft_strlen(rec_str) - i)); // on ne compte pas le '\0'
+	char_return = malloc(sizeof(char) * (ft_strlen(rec_str) - i)); // on malloc ce qu'il y a avant '\n' 
 	if (!char_return)
 		return (0);
 	if (rec_str[i])
