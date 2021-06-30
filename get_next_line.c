@@ -6,7 +6,7 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/30 09:30:44 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/06/30 11:17:39 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init(int *i, int *j)
 	*j = 0;
 }
 
-char	*record_line(char *rec_str) // j'enregistre la ligne suivante
+char	*record_line(char *rec_str) // j'enregistre la ligne apres '\n'
 {
 	int		i;
 	int		j;
@@ -90,18 +90,18 @@ int	get_next_line(int fd, char **line)
 	temp = 1; // c'est qu'il renvoit qqchose
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
 		return (-1);
-	while (!return_n(str) && temp != 0)
+	while (!return_n(str) && temp != 0) // tant qu'on ne rencontre pas de '\n' et que temp n'est pas a la fin du fichier
 	{
-		temp = read(fd, buffer, BUFFER_SIZE);
+		temp = read(fd, buffer, BUFFER_SIZE); // read renvoie un int donc forcement on read un int
 		if (temp == -1)
 			return (-1);
 		buffer[temp] = '\0';
 		str = ft_strjoin(str, buffer);
 	}
-	send_line(&str, line);
+	send_line(&str, line); // si on rencontre un '\n' on appelle la fonction send_line
 	if (temp == 0) // c'est qu'il est a la fin du texte
 	{
-		if (str)
+		if (str) // si la static est pleine on la vide
 			free(str);
 		str = NULL;
 		return (0);
