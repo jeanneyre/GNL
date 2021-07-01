@@ -6,7 +6,7 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/30 11:17:39 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/07/01 10:14:23 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	send_line(char **str, char **line)
 
 int	get_next_line(int fd, char **line)
 // **line > pointeur sur la string qui doit contenir la ligne
-// gnl renvoit un int et non la str, elle doit prendre un pointeur sur la str pour bien modifier la str et non une copie de celle-ci, comme un pointeur sur int en parametre pour modifier cet int en dehors de la fonction line doit contenir la ligne suivante a chaque appel, jusqu'a la fin du fichier
+// gnl renvoit un int et non la str, elle doit prendre un pointeur sur la str 
+// pour bien modifier la str et non une copie de celle-ci,comme un pointeur sur
+// int en parametre pour modifier cet int en dehors de la fonction line doit 
+// contenir la ligne suivante a chaque appel, jusqu'a la fin du fichier
 
 {
 	static char	*str;
