@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/07/06 16:47:52 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:26:17 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_line(char *str)
 {
@@ -76,28 +76,28 @@ void	send_line(char **str, char **line)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	*str;
+	static char	*str[256];
 	char		buffer[BUFFER_SIZE + 1];
 	int			temp;
 
 	temp = 1;
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || fd >= 256)
 		return (-1);
 	bzero(buffer, BUFFER_SIZE);
-	while (!return_n(str) && temp != 0)
+	while (!return_n(str[fd]) && temp != 0)
 	{
 		temp = read(fd, buffer, BUFFER_SIZE);
 		if (temp == -1)
 			return (-1);
 		buffer[temp] = '\0';
-		str = ft_strjoin(str, buffer);
+		str[fd] = ft_strjoin(str[fd], buffer);
 	}
-	send_line(&str, line);
+	send_line(&(str[fd]), line);
 	if (temp == 0)
 	{
-		if (str)
-			free(str);
-		str = NULL;
+		if (str[fd])
+			free(str[fd]);
+		str[fd] = NULL;
 		return (0);
 	}
 	return (1);
