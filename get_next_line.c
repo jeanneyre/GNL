@@ -6,16 +6,36 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:38:39 by crondeau          #+#    #+#             */
-/*   Updated: 2021/07/13 12:04:11 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/07/13 14:14:42 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	init(int *i, int *j)
+char	*get_line(char *str)
 {
-	*i = 0;
-	*j = 0;
+	int		i;
+	int		j;
+	char	*char_return;
+
+	i = 0;
+	if (!str)
+		return (0);
+	if (str[i])
+		i++;
+	while (str[i] && str[i - 1] != '\n')
+		i++;
+	char_return = malloc(sizeof(char) * (i + 1));
+	if (!char_return)
+		return (0);
+	j = 0;
+	while (j < i)
+	{
+		char_return[j] = str[j];
+		j++;
+	}
+	char_return[j] = 0;
+	return (char_return);
 }
 
 char	*record_line(char *rec_str)
@@ -45,94 +65,43 @@ char	*record_line(char *rec_str)
 	return (char_return);
 }
 
-char	*send_line(char **str)
+char	*send_line(char **str, char **line, int temp)
 {
-	char	*line;
-
-	line = get_line(*str);
+	*line = get_line(*str);
 	*str = record_line(*str);
-	return (line);
-}
-
-int	temp_free(char *str)
-{
-	if (str)
-		free(str);
-	str = NULL;
-	return (0);
+	if (temp == 0)
+	{
+		if (*str)
+			free(*str);
+		*str = NULL;
+		if (ft_strcmp(*line, "") == 0)
+		{
+			free(*line);
+			return (NULL);
+		}
+		return (*line);
+	}
+	return (*line);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*str;
-	char		*read_line;
 	char		buffer[BUFFER_SIZE + 1];
 	int			temp;
+	char		*line;
 
 	temp = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) != 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 256)
 		return (NULL);
 	bzero(buffer, BUFFER_SIZE);
 	while (!return_n(str) && temp != 0)
 	{
 		temp = read(fd, buffer, BUFFER_SIZE);
-		if (temp == 0)
-		{
-			free(str);	
+		if (temp == -1)
 			return (NULL);
-		}
 		buffer[temp] = '\0';
 		str = ft_strjoin(str, buffer);
 	}
-	read_line = send_line(&str);
-	//if (temp == 0)
-	//	temp_free(str);
-	return (read_line);
+	return (send_line(&str, &line, temp));
 }
-
-/*#include <stdio.h>
-#include <fcntl.h>
-#include "get_next_line.h"
-
-int     main()
-{
-    int		fd;
-	char *str;
-
-    fd = open("textfile.txt", O_RDONLY);
-
-	str = get_next_line(fd);
-	printf("%s, %d\n", str, fd);
-	while (str != NULL)
-	{
-		printf ("fd :%s\n", str);
-		str = get_next_line(fd);
-	}
-	printf ("fd :%s\n", str);
-
-    printf ("fd : %s", get_next_line(fd));
-	printf ("fd : %s", get_next_line(fd));
-    printf ("fd : %s", get_next_line(fd));
-    printf ("fd : %s", get_next_line(fd));
-    printf ("fd : %s", get_next_line(fd));
-    printf ("fd : %s", get_next_line(fd));
-    printf ("fd : %s", get_next_line(fd));
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s", get_next_line(fd));    
-	printf ("fd : %s\n", get_next_line(fd));    
-	printf ("fd : %s\n", get_next_line(fd));
-	close(fd);
-    return (0);
-}*/

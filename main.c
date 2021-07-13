@@ -1,18 +1,25 @@
-#include "get_next_line.h"
-#include <unistd.h>
-#include <fcntl.h>
+#include "get_next_line_bonus.h"
+#include <stdio.h>
 
-
-int		main(void)
+int main()
 {
-	char	*ret;
 	int		fd;
+	int		i;
+	char	*line;
 
-	fd = open("41_with_nl", O_RDONLY);
-	while ((ret = get_next_line(fd)))
+	fd = open("textfile.txt", O_RDONLY);
+	if (fd < 0)
+		return (-1);
+	i = 0;
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		printf("%s\n", ret);
-		free(ret);
+		printf("line %i : %s", i, line);
+		i++;
+		line = get_next_line(fd);
 	}
-	printf("%s\n", ret);
+	printf("line %i : %s", i, line);
+	close(fd);
+	free(line);
+	return (0);
 }

@@ -31,5 +31,6 @@ int		return_n(char *str);
 char	*get_line(char *str);
 char	*record_line(char *rec_str);
 void	init(int *i, int *j);
-char	*send_line(char **str);
+char	*send_line(char **str, char **line, int temp);
+int		ft_strcmp(const char *s1, const char *s2);
 #endif

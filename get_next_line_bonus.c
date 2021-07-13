@@ -15,30 +15,27 @@
 char	*get_line(char *str)
 {
 	int		i;
+	int		j;
 	char	*char_return;
 
 	i = 0;
 	if (!str)
 		return (0);
-	while (str[i] && str[i] != '\n')
+	if (str[i])
+		i++;
+	while (str[i] && str[i - 1] != '\n')
 		i++;
 	char_return = malloc(sizeof(char) * (i + 1));
 	if (!char_return)
 		return (0);
-	i = 0;
-	while (str[i] && str[i] != '\n')
+	j = 0;
+	while (j < i)
 	{
-		char_return[i] = str[i];
-		i++;
+		char_return[j] = str[j];
+		j++;
 	}
-	char_return[i] = 0;
+	char_return[j] = 0;
 	return (char_return);
-}
-
-void	init(int *i, int *j)
-{
-	*i = 0;
-	*j = 0;
 }
 
 char	*record_line(char *rec_str)
@@ -68,37 +65,43 @@ char	*record_line(char *rec_str)
 	return (char_return);
 }
 
-void	send_line(char **str, char **line)
+char	*send_line(char **str, char **line, int temp)
 {
 	*line = get_line(*str);
 	*str = record_line(*str);
+	if (temp == 0)
+	{
+		if (*str)
+			free(*str);
+		*str = NULL;
+		if (ft_strcmp(*line, "") == 0)
+		{
+			free(*line);
+			return (NULL);
+		}
+		return (*line);
+	}
+	return (*line);
 }
 
-int	get_next_line(int fd, char **line)
+char	*get_next_line(int fd)
 {
 	static char	*str[256];
 	char		buffer[BUFFER_SIZE + 1];
 	int			temp;
+	char		*line;
 
 	temp = 1;
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 || fd >= 256)
-		return (-1);
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 256)
+		return (NULL);
 	bzero(buffer, BUFFER_SIZE);
 	while (!return_n(str[fd]) && temp != 0)
 	{
 		temp = read(fd, buffer, BUFFER_SIZE);
 		if (temp == -1)
-			return (-1);
+			return (NULL);
 		buffer[temp] = '\0';
 		str[fd] = ft_strjoin(str[fd], buffer);
 	}
-	send_line(&(str[fd]), line);
-	if (temp == 0)
-	{
-		if (str[fd])
-			free(str[fd]);
-		str[fd] = NULL;
-		return (0);
-	}
-	return (1);
+	return (send_line(&(str[fd]), &line, temp));
 }

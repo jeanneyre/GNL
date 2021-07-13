@@ -12,6 +12,12 @@
 
 #include "get_next_line.h"
 
+void	init(int *i, int *j)
+{
+	*i = 0;
+	*j = 0;
+}
+
 int	return_n(char *str)
 {
 	int	i;
@@ -26,31 +32,6 @@ int	return_n(char *str)
 		i++;
 	}
 	return (0);
-}
-
-char	*get_line(char *str)
-{
-	int		i;
-	char	*char_return;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] && str[i] != '\n')
-		i++;
-	char_return = malloc(sizeof(char) * (i + 2));
-	if (!char_return)
-		return (0);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		char_return[i] = str[i];
-		i++;
-	}
-	char_return[i] = '\n';
-	i++;
-	char_return[i] = '\0';
-	return (char_return);
 }
 
 int	ft_strlen(const char *str)
@@ -73,8 +54,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 
 	if (!s2)
 		return (NULL);
-	i = 0;
-	j = 0;
+	init(&i, &j);
 	dest = (char *)malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2) + 1)));
 	if (!dest)
 		return (NULL);
@@ -87,8 +67,20 @@ char	*ft_strjoin(char *s1, char const *s2)
 		}
 	}
 	while (s2[j])
+	{
 		dest[i++] = s2[j++];
+	}
 	dest[i] = '\0';
 	free(s1);
 	return (dest);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return ((s1[i] - s2[i]));
 }

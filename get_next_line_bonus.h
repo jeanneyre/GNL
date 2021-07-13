@@ -24,12 +24,13 @@
 #  define BUFFER_SIZE 42
 # endif
 
-int		get_next_line(int fd, char **line);
+char	*get_next_line(int fd);
 int		ft_strlen(const char *str);
 char	*ft_strjoin(char *s1, char const *s2);
 int		return_n(char *str);
 char	*get_line(char *str);
 char	*record_line(char *rec_str);
 void	init(int *i, int *j);
-void	send_line(char **str, char **line);
+char	*send_line(char **str, char **line, int temp);
+int		ft_strcmp(const char *s1, const char *s2);
 #endif
