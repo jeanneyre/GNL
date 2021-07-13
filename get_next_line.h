@@ -6,7 +6,7 @@
 /*   By: crondeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 10:49:35 by crondeau          #+#    #+#             */
-/*   Updated: 2021/06/28 14:11:35 by crondeau         ###   ########.fr       */
+/*   Updated: 2021/07/13 10:06:34 by crondeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 #  define BUFFER_SIZE 42
 # endif
 
-int		get_next_line(int fd, char **line);
+char	*get_next_line(int fd);
 int		ft_strlen(const char *str);
 char	*ft_strjoin(char *s1, char const *s2);
 int		return_n(char *str);
 char	*get_line(char *str);
 char	*record_line(char *rec_str);
 void	init(int *i, int *j);
-void	send_line(char **str, char **line);
+char	*send_line(char **str);
 #endif
